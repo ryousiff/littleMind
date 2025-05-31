@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Analyze Drawing - {{ child.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <img src="/static/logo.jpg" alt="Little Mind Logo" style="width: 120px; margin-bottom: 20px;" />
+  <h2>Analyze Drawing for {{ child.name }}</h2>
+
+  <div class="doodle-layer"></div>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <div class="file-upload-area" id="uploadBox">
+      <div class="upload-icon">📁</div>
+      <div class="upload-text">Click or drag to upload</div>
+      <div class="upload-subtext">Supported: PNG, JPG</div>
+      <input type="file" name="drawing" id="drawing" accept="image/*" required>
+    </div>
+
+    <button type="submit">Analyze</button>
+    <button type="button" id="resetBtn" class="clear-button">Clear</button>
+    <a href="/dashboard">Back</a>
+  </form>
+
+  <div id="result"></div>
+  <div id="loading" style="display:none;">Analyzing...</div>
+  <script>
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const resetBtn = document.getElementById('resetBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loading.style.display = 'block';
+      result.textContent = '';
+
+      const formData = new FormData(form);
+
+      const response = await fetch(window.location.pathname, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      loading.style.display = 'none';
+
+      if (data.result) {
+        result.textContent = data.result;
+      } else {
+        result.textContent = 'Error: ' + (data.error || 'Something went wrong');
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      result.textContent = '';
+    });
+  </script>
+</body>
+</html>

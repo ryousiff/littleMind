@@ -1,0 +1,92 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title>DrawInsight AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <img src="/static/logo.jpg" alt="Little Mind Logo" style="width: 120px; margin-bottom: 20px;" />
+<h2>Welcome {{ user.email }}</h2>
+<div class="doodle-layer"></div>
+
+ <h2>Upload Your Child's Drawing</h2>
+
+<form id="uploadForm" enctype="multipart/form-data">
+  <div class="file-upload-area" id="uploadBox">
+    <div class="upload-icon">📁</div>
+    <div class="upload-text">Click or drag to upload</div>
+    <div class="upload-subtext">Supported: PNG, JPG</div>
+    <input type="file" name="drawing" id="drawing" accept="image/*" required>
+  </div>
+
+  <button type="submit">Analyze</button>
+  <button type="button" id="resetBtn" class="clear-button">
+  Clear
+</button>
+<a href="/logout">Logout</a>
+
+</form>
+
+
+  <div id="result"></div>
+  <div id="loading" style="display:none;">Analyzing...</div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Little Mind – Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- Doodle Background Layer -->
+  <div class="doodle-layer"></div>
+
+  <!-- Logo -->
+  <img src="/static/logo.jpg" alt="Little Mind Logo" style="width: 120px; margin-top: 20px;" />
+
+  <!-- Welcome Message -->
+  <h2>Welcome, {{ user.email }}</h2>
+  <a href="/logout" style="margin-bottom: 30px; display: inline-block;">Logout</a>
+
+  <!-- Child Profiles Section -->
+  <section>
+    <h3>Your Children</h3>
+
+    {% if user.children %}
+      <div class="child-list">
+        {% for child in user.children %}
+        <div class="child-card">
+          <h4>{{ child.name }}</h4>
+          <p>Age: {{ child.age }}</p>
+          <a href="/child/{{ child.id }}/gallery">📁 Gallery</a>
+<a href="/child/{{ child.id }}/insight">📊 View Insights</a>
+<a href="/child/{{ child.id }}/analyze">🧠 Analyze Drawing</a>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No children added yet.</p>
+    {% endif %}
+
+<a href="/add-child" class="add-child-btn">➕ Add Child</a>
+  </section>
+
+  <!-- Analysis Result Modal or Section -->
+  <!-- <div id="result" class="result-box"></div>
+  <div id="loading" style="display:none;">Analyzing...</div> -->
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    function startAnalysis(childId) {
+      // Could show upload form + pass childId in backend
+      alert("TODO: Open upload form for child ID: " + childId);
+    }
+  </script>
+</body>
+</html>

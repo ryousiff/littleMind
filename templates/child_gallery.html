@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ child.name }}'s Gallery</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <div class="doodle-layer"></div>
+  <h2>{{ child.name }}'s Drawing Gallery</h2>
+
+  {% if drawings %}
+    <div class="gallery-grid">
+      {% for drawing in drawings %}
+        <div class="drawing-card">
+          <img src="data:image/png;base64,{{ drawing.image_data }}" alt="Drawing" />
+          <div class="text">{{ drawing.result }}</div>
+          <div class="timestamp">{{ drawing.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No drawings uploaded yet.</p>
+  {% endif %}
+
+  <a href="/dashboard">← Back to Dashboard</a>
+</body>
+</html>
